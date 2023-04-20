@@ -1,29 +1,26 @@
-//your code here
-// Array of band names
-let touristSpots = ['The Virupaksha Temple', 'Victoria Memorial', 'Tajmahal'];
+const bandNames = ['The Beatles', 'Led Zeppelin', 'Pink Floyd', 'Aerosmith', 'Anthrax'];
 
-// Function to remove articles ('a', 'an', 'the') from band names
-function removeArticle(name) {
-  let words = name.split(' ');
-  if (words[0].toLowerCase() === 'the' || words[0].toLowerCase() === 'a' || words[0].toLowerCase() === 'an') {
-    words.shift();
+function sortBands(bands) {
+
+  const articles = ['a', 'an', 'the'];
+
+  function stripArticles(name) {
+    return name.split(' ').filter(word => !articles.includes(word.toLowerCase())).join(' ');
   }
-  return words.join(' ');
+
+  const sortedBands = bands.sort((a, b) => stripArticles(a).localeCompare(stripArticles(b)));
+
+  return sortedBands;
 }
 
-// Sort the band names in lexicographic order
-touristSpots.sort(function(a, b) {
-  return removeArticle(a).localeCompare(removeArticle(b));
-});
+const sortedBands = sortBands(bandNames);
 
-// Get the ul element and clear any existing list items
-let ul = document.getElementById('band');
-ul.innerHTML = '';
+const bandList = document.getElementById('band');
 
-// Add each band name to the ul element as a list item
-for (let i = 0; i < touristSpots.length; i++) {
-  let li = document.createElement('li');
-  li.textContent = touristSpots[i];
+const ul = document.createElement('ul');
+sortedBands.forEach(band => {
+  const li = document.createElement('li');
+  li.textContent = band;
   ul.appendChild(li);
-}
-
+});
+bandList.appendChild(ul);
